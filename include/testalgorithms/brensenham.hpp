@@ -2,35 +2,20 @@
 // Input: 2 Points in screen coordinate
 // Output: Line between above points
 
-#ifndef BRENSENHAMS_ALGORITHM
-#define BRENSENHAMS_ALGORITHM
+#ifndef BRENSENHAMS
+#define BRENSENHAMS
 
 #include <iostream>
+
+#include "point.hpp"
 
 namespace brsh
 {
     const int TEST_RANGE = 100;
 
-    struct point
-    {
-        int x, y;
-
-        point() {}
-        point(int x, int y) : x(x), y(y) {}
-
-        void swap(point *other)
-        {
-            point temp = *this;
-            this->x = other->x;
-            this->y = other->y;
-            other->x = temp.x;
-            other->y = temp.y;
-        }
-    };
-
     void run()
     {
-        point end(55, 10), start(99, 17);
+        point<int> start(55, 10), end(99, 17);
         if (start.x < 0 && start.x >= TEST_RANGE)
             std::cerr << "start x out of range" << std::endl;
         if (start.y < 0 && start.y >= TEST_RANGE)
@@ -76,6 +61,8 @@ namespace brsh
             map[start.y][start.x] = true;
         }
 
+        // Output
+        std::cout << "Brensenham's algorithm:" << std::endl;
         for (int y = TEST_RANGE - 1; y >= 0; y--)
         {
             for (int x = 0; x < TEST_RANGE; x++)

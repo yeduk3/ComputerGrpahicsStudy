@@ -1,11 +1,12 @@
 #include <iostream>
 
-#include "testalgorithms/brensenhams algorithm.hpp"
+// #include "testalgorithms/brensenham.hpp"
+#include "testalgorithms/DDA.hpp"
 
 using namespace std;
 
 int main()
 {
-    brsh::run();
+    dda::run();
     return 0;
 }
