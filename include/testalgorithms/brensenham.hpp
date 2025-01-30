@@ -13,9 +13,13 @@ namespace brsh
 {
     const int TEST_RANGE = 100;
 
+    bool map[TEST_RANGE][TEST_RANGE] = {
+        false,
+    };
+
     void run()
     {
-        point<int> start(55, 10), end(99, 17);
+        point<int> start(4, 3), end(49, 17);
         if (start.x < 0 && start.x >= TEST_RANGE)
             std::cerr << "start x out of range" << std::endl;
         if (start.y < 0 && start.y >= TEST_RANGE)
@@ -24,10 +28,6 @@ namespace brsh
             std::cerr << "end x out of range" << std::endl;
         if (end.y < 0 && end.y >= TEST_RANGE)
             std::cerr << "end y out of range" << std::endl;
-
-        bool map[TEST_RANGE][TEST_RANGE] = {
-            false,
-        };
 
         map[start.y][start.x] = true;
         map[end.y][end.x] = true;
@@ -45,7 +45,7 @@ namespace brsh
         }
 
         // Algorithm
-        int decision = -3 * dy + 2 * dx;
+        int decision = -4 * dy + 3 * dx;
         for (int i = start.x + 1; i < end.x; i++)
         {
             if (decision < 0)
