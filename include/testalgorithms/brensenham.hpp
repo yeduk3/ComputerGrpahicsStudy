@@ -19,7 +19,7 @@ namespace brsh
 
     void run()
     {
-        point<int> start(4, 3), end(49, 17);
+        point<int> start(4, 3), end(49, 90);
         if (start.x < 0 && start.x >= TEST_RANGE)
             std::cerr << "start x out of range" << std::endl;
         if (start.y < 0 && start.y >= TEST_RANGE)
@@ -36,13 +36,22 @@ namespace brsh
         {
             start.swap(&end);
         }
+
         bool flip = false;
         int dy = end.y - start.y;
         int dx = end.x - start.x;
         if (dy > dx)
         {
             flip = true;
+            int temp = start.y;
+            start.y = start.x;
+            start.x = temp;
+            temp = end.y;
+            end.y = end.x;
+            end.x = temp;
         }
+        dy = end.y - start.y;
+        dx = end.x - start.x;
 
         // Algorithm
         int decision = -4 * dy + 3 * dx;
@@ -58,7 +67,10 @@ namespace brsh
             if (decision < 0)
                 start.y++;
 
-            map[start.y][start.x] = true;
+            if (flip)
+                map[start.x][start.y] = true;
+            else
+                map[start.y][start.x] = true;
         }
 
         // Output
