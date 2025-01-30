@@ -19,7 +19,15 @@ namespace brsh
 
     void run()
     {
-        point<int> start(4, 3), end(49, 90);
+        point<int> start(4, 3), end(90, 49); // case 1(1 quad, not steep) pass
+        // point<int> start(4, 3), end(49, 90); // case 2(1 quad, steep) pass
+        // point<int> start(4, 90), end(49, 3); // case 3(2 quad, steep) pass
+        // point<int> start(4, 30), end(90, 9); // case 4(2 quad, not steep) pass
+        // point<int> end(4, 3), start(90, 49); // case 5(3 quad, not steep) pass
+        // point<int> end(4, 3), start(49, 90); // case 6(3 quad, steep) pass
+        // point<int> start(4, 90), end(49, 3); // case 7(4 quad, steep) pass
+        // point<int> start(4, 90), end(49, 70); // case 8(4 quad, not steep) pass
+
         if (start.x < 0 && start.x >= TEST_RANGE)
             std::cerr << "start x out of range" << std::endl;
         if (start.y < 0 && start.y >= TEST_RANGE)
@@ -32,45 +40,56 @@ namespace brsh
         map[start.y][start.x] = true;
         map[end.y][end.x] = true;
 
-        if (start.x > end.x)
-        {
-            start.swap(&end);
-        }
-
-        bool flip = false;
-        int dy = end.y - start.y;
+        int moveX = 1, moveY = 1;
         int dx = end.x - start.x;
-        if (dy > dx)
+        if (dx < 0)
         {
-            flip = true;
-            int temp = start.y;
-            start.y = start.x;
-            start.x = temp;
-            temp = end.y;
-            end.y = end.x;
-            end.x = temp;
+            moveX = -1;
+            dx = -dx;
         }
-        dy = end.y - start.y;
-        dx = end.x - start.x;
+        int dy = end.y - start.y;
+        if (dy < 0)
+        {
+            moveY = -1;
+            dy = -dy;
+        }
+        bool flip = dy > dx;
+        if (flip)
+        {
+            int temp = start.x;
+            start.x = start.y;
+            start.y = temp;
+
+            temp = end.x;
+            end.x = end.y;
+            end.y = temp;
+
+            temp = dy;
+            dy = dx;
+            dx = temp;
+
+            temp = moveX;
+            moveX = moveY;
+            moveY = temp;
+        }
 
         // Algorithm
         int decision = -4 * dy + 3 * dx;
-        for (int i = start.x + 1; i < end.x; i++)
+        int y = start.y;
+        for (int x = start.x + moveX; x != end.x; x += moveX)
         {
             if (decision < 0)
                 decision -= 2 * (dy - dx);
             else
                 decision -= 2 * dy;
 
-            start.x++;
-
             if (decision < 0)
-                start.y++;
+                y += moveY;
 
             if (flip)
-                map[start.x][start.y] = true;
+                map[x][y] = true;
             else
-                map[start.y][start.x] = true;
+                map[y][x] = true;
         }
 
         // Output
