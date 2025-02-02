@@ -1,3 +1,8 @@
+// DDA for line drawing
+// Input: 2 Points in screen coordinate
+// Output: Line between above points
+// Assume that the line starts from the center point of start pixel and ends into the center point of end pixel
+
 #ifndef DDA
 #define DDA
 
@@ -13,10 +18,9 @@ namespace dda
         false,
     };
 
-    void run()
+    void run(point<int> start, point<int> end)
     {
-        point<int> start(4, 3), end(49, 17);
-
+        // Out of range test
         if (start.x < 0 && start.x >= TEST_RANGE)
             std::cerr << "start x out of range" << std::endl;
         if (start.y < 0 && start.y >= TEST_RANGE)
@@ -26,6 +30,7 @@ namespace dda
         if (end.y < 0 && end.y >= TEST_RANGE)
             std::cerr << "end y out of range" << std::endl;
 
+        // setup
         if (start.x > end.x)
         {
             start.swap(&end);
@@ -42,7 +47,7 @@ namespace dda
         map[start.y][start.x] = true;
         map[end.y][end.x] = true;
         float m = dy / (float)dx;
-        float y = m * 0.5 + start.y;
+        float y = start.y + 0.5f;
         for (int i = start.x + 1; i < end.x; i++)
         {
             y += m;

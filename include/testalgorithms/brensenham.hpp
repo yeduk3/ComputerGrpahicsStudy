@@ -1,6 +1,7 @@
 // Line Drawing Algorithm in Rasterization
 // Input: 2 Points in screen coordinate
 // Output: Line between above points
+// Assume that the line starts from the center point of start pixel and ends into the center point of end pixel
 
 #ifndef BRENSENHAMS
 #define BRENSENHAMS
@@ -17,17 +18,9 @@ namespace brsh
         false,
     };
 
-    void run()
+    void run(point<int> start, point<int> end)
     {
-        point<int> start(4, 3), end(90, 49); // case 1(1 quad, not steep) pass
-        // point<int> start(4, 3), end(49, 90); // case 2(1 quad, steep) pass
-        // point<int> start(4, 90), end(49, 3); // case 3(2 quad, steep) pass
-        // point<int> start(4, 30), end(90, 9); // case 4(2 quad, not steep) pass
-        // point<int> end(4, 3), start(90, 49); // case 5(3 quad, not steep) pass
-        // point<int> end(4, 3), start(49, 90); // case 6(3 quad, steep) pass
-        // point<int> start(4, 90), end(49, 3); // case 7(4 quad, steep) pass
-        // point<int> start(4, 90), end(49, 70); // case 8(4 quad, not steep) pass
-
+        // Out of range test
         if (start.x < 0 && start.x >= TEST_RANGE)
             std::cerr << "start x out of range" << std::endl;
         if (start.y < 0 && start.y >= TEST_RANGE)
@@ -37,6 +30,7 @@ namespace brsh
         if (end.y < 0 && end.y >= TEST_RANGE)
             std::cerr << "end y out of range" << std::endl;
 
+        // Setup
         map[start.y][start.x] = true;
         map[end.y][end.x] = true;
 
