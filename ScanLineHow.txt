@@ -1,0 +1,58 @@
+스캔 라인 알고리즘 구현 방안에 대한 고찰
+
+툴은 OpenGL? 아니면 그냥 배열을 활용한 C++?
+
+엄…
+1. 일단 폴리곤을 그려야 함.
+내가 별모양 폴리곤을 그릴 수 있나?
+아니면 다른 모양으로 그려도 되긴 함.
+
+2. depth buffer를 만들어야 함.
+폴리곤들 z값에 대하여 버퍼에 담아야하는데…
+버퍼 사이즈는 
+
+3. 라인을 쏴야 함.
+라인의 목적 = inside / outside 판별, 색상 interpolation, HSR
+
+라인을 통해 odd-even test를 진행함으로 inside, outside를 판별하고,
+inside로 판단된 폴리곤들에 대해서 HSR을 진행.
+이후에 
+
+
+————————————————————————————————
+V1: 1개의 폴리곤에 대한 스캔 라인 알고리즘.
+
+INPUT: 그릴 정점들. 주어지는 순서대로 그리는 것으로 가정.
+마지막 인풋은 최초의 인풋으로 이어져 닫히는 폴리곤 생성.
+
+OUTPUT: 내부가 채워진 폴리곤(배열의 형태)
+
+STEPS: 
+x, y는 모두 [0, MAX_SIZE) 의 범위를 가짐. (인풋도 당연히 이 범위를 지켜야 함)
+
+y=[0, MAX_SIZE)에 대하여, x를 1칸씩 전진시키며 스캔.
+1칸 움직일 때에 어떤 에지를 지났다면, <- 이거를 어떻게 판단할 것인가?
+
+점들이 주어졌을 때, 이를 에지로 변환하여 저장하는 자료구조를 설계
+1. 에지의 ymax, ymin, xmax, xmin을 저장.
+2. 에지의 기울기를 저장.
+
+이러면, 스캔라인이 어떤 에지를 지나는지는 직선 좌측인지 우측인지로 판별.
+스캔라인 y=k에 대하여, 직선 y=mx+p와의 교점 (a,k)가 있으면,
+k=ma+p, 정리하면 a=1/m * (k-p)이다.
+for x=[0, MAX_SIZE)에 대해, x < a인 경우에는 직선 좌측, a < x 인 경우에는 직선 우측이 된다.
+
+통과 횟수 odd ~ even 범위를 inside로 규정.
+1개의 폴리곤이 조건이므로 [odd, even]으로 해도 문제는 없음.
+그러나 폴리곤 수가 늘어나면 여러번 체킹되는 현상이 발생할 수 있나...?
+여차하면 [odd, even) 범위로 구성해도 괜찮지.
+
+
+
+————————————————————————————————
+V2: n개의 폴리곤에 대한 스캔 라인 알고리즘
+
+
+* Flag for each polygon (inside/outside) - For shading color
+* Incremental structure for scan lines that stores which edges are encountered -
+* Parameters for planes - For depth (hsr)
