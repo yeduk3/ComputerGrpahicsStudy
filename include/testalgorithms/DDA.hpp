@@ -31,16 +31,37 @@ namespace dda
             std::cerr << "end y out of range" << std::endl;
 
         // setup
-        if (start.x > end.x)
-        {
-            start.swap(&end);
-        }
-        bool flip = false;
-        int dy = end.y - start.y;
+        int moveX = 1, moveY = 1;
         int dx = end.x - start.x;
-        if (dy > dx)
+        if (dx < 0)
         {
-            flip = true;
+            moveX = -1;
+            dx = -dx;
+        }
+        int dy = end.y - start.y;
+        if (dy < 0)
+        {
+            moveY = -1;
+            dy = -dy;
+        }
+        bool flip = dy > dx;
+        if (flip)
+        {
+            int temp = start.x;
+            start.x = start.y;
+            start.y = temp;
+
+            temp = end.x;
+            end.x = end.y;
+            end.y = temp;
+
+            temp = dy;
+            dy = dx;
+            dx = temp;
+
+            temp = moveX;
+            moveX = moveY;
+            moveY = temp;
         }
 
         // Algorithm
@@ -48,10 +69,13 @@ namespace dda
         map[end.y][end.x] = true;
         float m = dy / (float)dx;
         float y = start.y + 0.5f;
-        for (int i = start.x + 1; i < end.x; i++)
+        for (int x = start.x + moveX; x != end.x; x += moveX)
         {
-            y += m;
-            map[(int)y][i] = true;
+            y += m * moveY;
+            if (flip)
+                map[x][(int)y] = true;
+            else
+                map[(int)y][x] = true;
         }
 
         // Output

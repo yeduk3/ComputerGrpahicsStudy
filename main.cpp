@@ -27,7 +27,7 @@ int main()
         {
             if (brsh::map[y][x] != dda::map[y][x])
             {
-                cout << "Not Correct on " << x << " " << y << endl;
+                cout << "Not Correct on x = " << x << ", y = " << y << endl;
                 flag = true;
             }
         }
