@@ -12,9 +12,9 @@ using namespace std;
 namespace linedrawing_comp
 {
 
-    void run()
+    void run(const point<int> &start, const point<int> &end)
     {
-        point<int> start(4, 3), end(90, 49); // case 1(1 quad, not steep) pass
+        // point<int> start(4, 3), end(90, 49); // case 1(1 quad, not steep) pass
         // point<int> start(4, 3), end(49, 90); // case 2(1 quad, steep) pass
         // point<int> start(4, 90), end(49, 3); // case 3(2 quad, steep) pass
         // point<int> start(4, 30), end(90, 9); // case 4(2 quad, not steep) pass
