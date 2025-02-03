@@ -25,6 +25,8 @@ namespace scanline
                 edges.push_back(e);
                 std::cout << e << std::endl;
             }
+            else
+                std::cout << e << " is skipped since it's horizontal line" << std::endl;
         }
 
         std::vector<edge<int>> activated;

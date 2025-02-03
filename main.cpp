@@ -4,7 +4,7 @@
 #include "point.hpp"
 #include "edge.hpp"
 #include "linedrawing/linedrawing_comparator.hpp" // linedrawing_comp::
-#include "scanline/scanline.hpp"                  // linedrawing_comp::
+#include "scanline/scanline.hpp"                  // scanline::
 
 using namespace std;
 
