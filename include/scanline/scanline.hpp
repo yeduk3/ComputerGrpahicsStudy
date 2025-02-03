@@ -21,8 +21,10 @@ namespace scanline
         {
             auto e = edge<int>(polygon[i], polygon[(i + 1) % polygon.size()]);
             if (!e.horz)
+            {
                 edges.push_back(e);
-            std::cout << edges[i] << std::endl;
+                std::cout << e << std::endl;
+            }
         }
 
         std::vector<edge<int>> activated;
