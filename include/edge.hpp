@@ -23,7 +23,7 @@ struct edge
         if (!vert)
             m = dy / (float)dx;
         if (!horz)
-            mInv = dx / dy;
+            mInv = dx / (float)dy;
         ymax = from.y > to.y ? from.y : to.y;
         ymin = from.y > to.y ? to.y : from.y;
     }
